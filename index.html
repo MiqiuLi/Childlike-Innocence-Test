@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>童心指数测试 ✨ 2026.6.1</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary: #FF6B9D;
+            --secondary: #FFA502;
+            --accent: #6BCB77;
+            --purple: #9D84B7;
+            --blue: #4D96FF;
+            --bg: linear-gradient(135deg, #FFF9E6 0%, #FFE8F5 50%, #E8F4FF 100%);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            overflow: hidden;
+        }
+        body {
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            animation: slideIn 0.6s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .stars {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            animation: sparkle 2s infinite;
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .title {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        .tagline {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #999;
+        }
+        .quiz-section {
+            display: none;
+        }
+        .quiz-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .progress {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 30px;
+        }
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-bar.filled {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        .question-number {
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option {
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+        .option:hover {
+            border-color: var(--primary);
+            background: #fff5f9;
+            transform: translateX(4px);
+        }
+        .option.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(157, 132, 183, 0.1));
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .option-radio {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            margin-right: 12px;
+            transition: all 0.2s;
+        }
+        .option.selected .option-radio {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            flex: 2;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(255, 107, 157, 0.3);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        .result-section {
+            display: none;
+            text-align: center;
+            animation: resultAppear 0.8s ease;
+        }
+        .result-section.active {
+            display: block;
+        }
+        @keyframes resultAppear {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .result-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 0.8s ease;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .result-title {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+        .result-type {
+            color: var(--primary);
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        .result-description {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .result-traits {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .trait {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #555;
+            border-left: 3px solid var(--primary);
+        }
+
+        /* 维度指数区块 */
+        .dimensions-section {
+            text-align: left;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+        }
+
+        .dimensions-title {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .dimension-item {
+            margin-bottom: 18px;
+        }
+
+        .dimension-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .dimension-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .dimension-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .dimension-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.8s ease;
+            background: linear-gradient(90deg, #FF6B9D, #FFA502);
+        }
+
+        .dimension-fill.purple {
+            background: linear-gradient(90deg, #9D84B7, #FF6B9D);
+        }
+
+        .dimension-fill.blue {
+            background: linear-gradient(90deg, #4D96FF, #6BCB77);
+        }
+
+        .dimension-fill.green {
+            background: linear-gradient(90deg, #6BCB77, #4D96FF);
+        }
+
+        .dimension-fill.orange {
+            background: linear-gradient(90deg, #FFA502, #FF6B9D);
+        }
+
+        .dimension-fill.cyan {
+            background: linear-gradient(90deg, #4D96FF, #9D84B7);
+        }
+
+        /* 分享卡片 */
+        #shareCard {
+            display: none;
+            position: fixed;
+            top: -9999px;
+            left: -9999px;
+            width: 400px;
+            padding: 30px;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFE8F5 50%, #E8F4FF 100%);
+            border-radius: 20px;
+            text-align: center;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        #shareCard .share-emoji {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        #shareCard .share-title {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF6B9D, #FFA502);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        #shareCard .share-type {
+            font-size: 14px;
+            color: #FF6B9D;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        #shareCard .share-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        #shareCard .share-footer {
+            font-size: 12px;
+            color: #999;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        #shareCard .share-date {
+            margin-top: 10px;
+            font-size: 11px;
+            color: #ccc;
+        }
+        .result-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        .result-actions button {
+            flex: 1;
+        }
+        .hidden-audio {
+            display: none;
+        }
+        .card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .card::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .card::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+        .card::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+        @media (max-width: 600px) {
+            .card { padding: 25px; border-radius: 16px; }
+            .title { font-size: 24px; }
+            .question { font-size: 16px; }
+            .result-emoji { font-size: 60px; }
+            .result-title { font-size: 22px; }
+            .result-traits { grid-template-columns: 1fr; }
+        }
+
+        /* 烟花全屏画布 */
+        #fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fireworks"></canvas>
+    <div class="container">
+        <div class="card">
+            <div class="stars">✨</div>
+            <div class="quiz-section active" id="startSection">
+                <div class="header" style="margin-top: 60px; margin-bottom: 50px;">
+                    <div class="title">童心指数测试</div>
+                    <div class="subtitle">💫 2026.6.1 儿童节特别版 💫</div>
+                    <div class="tagline">发现你内心深处的那个小孩</div>
+                </div>
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <p style="font-size: 16px; color: #666; line-height: 1.8; margin-bottom: 30px;">
+                        这是一个专为"大孩子"设计的人格测试。<br>
+                        通过 16 个有趣的问题，<br>
+                        我们将揭示你内心深处的童真特质。
+                    </p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                        <div style="padding: 15px; background: #fff5f9; border-radius: 12px;">
+                            <div style="font-size: 32px; margin-bottom: 8px;">🎨</div>
+                            <div style="font-size: 13px; color: #666; font-weight: 500;">发现天赋</div>
+                        </div>
+                        <div style="padding: 15px; background: #fff5f9; border-radius: 12px;">
+                            <div style="font-size: 32px; margin-bottom: 8px;">🌟</div>
+                            <div style="font-size: 13px; color: #666; font-weight: 500;">找到你的风格</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="startQuiz()" style="margin-top: 80px;">开始测试</button>
+            </div>
+            <div id="questionsContainer"></div>
+            <div class="result-section" id="resultSection"></div>
+        </div>
+    </div>
+
+    <!-- Canvas用于烟花 -->
+    <canvas id="fireworks" style="position: fixed; top: 0; left: 0; display: none;"></canvas>
+
+    <!-- 音效 -->
+    <audio class="hidden-audio" id="clickSound">
+        <source src="data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==" type="audio/wav">
+    </audio>
+
+    <!-- 分享卡片（隐藏） -->
+    <div id="shareCard"></div>
+
+    <script>
+        // ====================== 音效 ======================
+        let audioContext = null;
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        function playClickSound() {
+            try {
+                initAudio();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {}
+        }
+
+        // ====================== 题目与结果 ======================
+        const questions = [
+            {q:"你现在最想做的事是什么？",options:[{text:"创造或想象一些新奇的东西",score:{imagine:1,cautious:0}},{text:"按计划完成手头的任务",score:{imagine:0,cautious:1}}]},
+            {q:"看到一个陌生的地方，你会？",options:[{text:"迫不及待地去探索每个角落",score:{adventure:1,cautious:0}},{text:"先了解周围环境再行动",score:{adventure:0,cautious:1}}]},
+            {q:"当朋友邀请你参加意外计划时，你？",options:[{text:"立刻答应，越随意越有趣",score:{spontaneous:1,planned:0}},{text:"需要时间考虑和规划",score:{spontaneous:0,planned:1}}]},
+            {q:"你更喜欢哪种学习方式？",options:[{text:"通过游戏和实验去发现",score:{playful:1,serious:0}},{text:"系统地学习和掌握知识",score:{playful:0,serious:1}}]},
+            {q:"面对失败或挫折，你通常？",options:[{text:"笑一笑，从中学习继续前进",score:{optimistic:1,anxious:0}},{text:"认真反思，找出改进方案",score:{optimistic:0,anxious:1}}]},
+            {q:"和朋友相处时，你最享受？",options:[{text:"一起疯、一起笑、制造回忆",score:{extrovert:1,introvert:0}},{text:"深入的对话和真诚的交流",score:{extrovert:0,introvert:1}}]},
+            {q:"看到别人开心的事，你会？",options:[{text:"被他们的快乐感染，一起开心",score:{emotional:1,rational:0}},{text:"替他们感到高兴但保持理智",score:{emotional:0,rational:1}}]},
+            {q:"你对梦想的态度是？",options:[{text:"大胆去追，不怕失败",score:{dreamer:1,realist:0}},{text:"现实一点，脚踏实地前进",score:{dreamer:0,realist:1}}]},
+            {q:"遇到选择时，你更多地？",options:[{text:"听从心的声音",score:{intuitive:1,logical:0}},{text:"分析利弊做理性判断",score:{intuitive:0,logical:1}}]},
+            {q:"你怎样看待规则？",options:[{text:"有时候打破规则会更有趣",score:{rebel:1,obedient:0}},{text:"规则存在自有其道理",score:{rebel:0,obedient:1}}]},
+            {q:"闲散时光，你最想？",options:[{text:"做点疯狂或出人意料的事",score:{wild:1,calm:0}},{text:"放松身心，享受宁静",score:{wild:0,calm:1}}]},
+            {q:"对周围的世界，你更多地？",options:[{text:"充满好奇和惊喜",score:{curious:1,satisfied:0}},{text:"感到理解和熟悉",score:{curious:0,satisfied:1}}]},
+            {q:"别人如何形容你？",options:[{text:"有趣、活力、充满想象力",score:{colorful:1,steady:0}},{text:"可靠、成熟、值得信赖",score:{colorful:0,steady:1}}]},
+            {q:"你的理想状态是？",options:[{text:"每天都有新的发现和冒险",score:{free:1,secure:0}},{text:"稳定舒适，一切尽在掌握",score:{free:0,secure:1}}]},
+            {q:"遇到困难时，你倾向于？",options:[{text:"想办法创意性地解决",score:{creative:1,conventional:0}},{text:"采用已知有效的方法",score:{creative:0,conventional:1}}]},
+            {q:"对\"长大\"这件事，你的感受是？",options:[{text:"有点舍不得失去的那份纯真",score:{nostalgic:1,progressive:0}},{text:"期待成为更好的大人",score:{nostalgic:0,progressive:1}}]}
+        ];
+
+        const results = [
+            {type:"梦想家",emoji:"🦄",title:"永远的梦想家",desc:"你内心住着一个永远不愿长大的梦想家。你用想象力编织世界，相信魔法存在。对你来说，生活就是一场冒险故事，充满惊喜和可能。",traits:["想象力丰富","充满热情","乐观向上","敢于梦想","感性细腻","创意十足"]},
+            {type:"探险家",emoji:"🌍",title:"勇敢的探险家",desc:"你是那种说走就走的人。世界对你充满诱惑，每个角落都隐藏着秘密。你渴望自由、热爱冒险，心中永远有一份对未知的期待。",traits:["勇气十足","爱好探索","热血沸腾","自由奔放","行动力强","永葆激情"]},
+            {type:"调皮鬼",emoji:"🎭",title:"永不驯服的调皮鬼",desc:"规则？那是什么？你就是那个敢于打破常规、制造惊喜的人。你的快乐简单而纯粹，一声笑就能点燃一个房间。生活因你而有趣。",traits:["调皮可爱","幽默感强","不拘一格","充满活力","敢于挑战","笑点丰富"]},
+            {type:"梦想家+探险家",emoji:"✨",title:"星辰探梦者",desc:"你是梦想和行动的完美结合。你既有梦想家的想象力，也有探险家的勇气。你不仅敢想，更敢做。你的人生座右铭是：梦想值得去追逐。",traits:["思想开放","行动力强","富有远见","自信满满","积极向上","勇于尝试"]},
+            {type:"实梦者",emoji:"🏆",title:"实梦者",desc:"你知道怎么平衡现实和梦想。你有计划、有目标，但不会失去那份对美好的渴望。你是成熟和童真的混合体，走在通向梦想的确定之路上。",traits:["脚踏实地","思路清晰","目标明确","执行力强","理性成熟","持之以恒"]},
+            {type:"温暖治愈者",emoji:"🌸",title:"温暖的治愈者",desc:"你有着孩子般的纯真和善良。你容易被感动，能感受到他人的情绪。你用温暖和同情心对待世界，是那种能给人安心感的人。",traits:["温柔体贴","同理心强","纯真善良","容易被感动","治愈系","充满爱心"]},
+            {type:"理想主义者",emoji:"🌈",title:"彩色的理想主义者",desc:"你有着孩子的纯真信念和大人的思考能力。你相信世界可以更好，并为此而努力。你的内心闪闪发光，照亮了自己也温暖了他人。",traits:["信念坚定","充满希望","理想主义","独特视角","有担当","深思熟虑"]},
+            {type:"享乐者",emoji:"🎪",title:"快乐的享乐者",desc:"生活就是用来享受的！你懂得抓住生活中的每一个快乐时刻。你不会被琐碎困扰，而是专注于那些让人开心的事。你是快乐的源头。",traits:["热爱生活","享受当下","开朗乐观","气场十足","感染力强","纯粹快乐"]}
+        ];
+
+        let currentQuestion = 0;
+        let scores = {};
+        let selectedOption = null;
+        let finalResult = null;
+
+        function initScores() {
+            scores = {
+                imagine:0,cautious:0,adventure:0,playful:0,spontaneous:0,planned:0,
+                optimistic:0,anxious:0,extrovert:0,introvert:0,emotional:0,rational:0,
+                dreamer:0,realist:0,intuitive:0,logical:0,rebel:0,obedient:0,wild:0,calm:0,
+                curious:0,satisfied:0,colorful:0,steady:0,free:0,secure:0,creative:0,conventional:0,
+                nostalgic:0,progressive:0, serious:0
+            };
+        }
+
+        function startQuiz() {
+            playClickSound();
+            initScores();
+            currentQuestion = 0;
+            selectedOption = null;
+            // 打乱题目顺序（Fisher-Yates洗牌算法）
+            for (let i = questions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [questions[i], questions[j]] = [questions[j], questions[i]];
+            }
+            document.getElementById('startSection').classList.remove('active');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            playClickSound();
+            const container = document.getElementById('questionsContainer');
+            const q = questions[currentQuestion];
+            let html = `<div class="quiz-section active" id="questionSection">
+                <div class="progress">`;
+            for(let i=0;i<16;i++){
+                html+=`<div class="progress-bar ${i<currentQuestion+1?'filled':''}"></div>`;
+            }
+            html+=`</div>
+                <div class="question-number">问题 ${currentQuestion+1} / 16</div>
+                <div class="question">${q.q}</div>
+                <div class="options">`;
+            q.options.forEach((opt,idx)=>{
+                html+=`<div class="option" onclick="selectOption(${idx})">
+                    <span class="option-radio"></span>${opt.text}</div>`;
+            });
+            html+=`</div>
+                <div class="button-group">
+                    ${currentQuestion>0?'<button class="btn btn-secondary" onclick="previousQuestion()">上一题</button>':''}
+                    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>下一题</button>
+                </div>
+            </div>`;
+            container.innerHTML = html;
+        }
+
+        function selectOption(idx) {
+            playClickSound();
+            selectedOption = idx;
+            document.querySelectorAll('.option').forEach((opt,i)=>{
+                opt.classList.toggle('selected',i===idx);
+            });
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if(selectedOption===null)return;
+            const q = questions[currentQuestion];
+            const s = q.options[selectedOption].score;
+            for(let k in s) scores[k]+=s[k];
+            currentQuestion++;
+            selectedOption = null;
+            if(currentQuestion<16){
+                showQuestion();
+            }else{
+                showResult();
+            }
+        }
+
+        function previousQuestion() {
+            playClickSound();
+            if(currentQuestion>0){
+                currentQuestion--;
+                selectedOption=null;
+                showQuestion();
+            }
+        }
+
+        function calculateResult() {
+            const childhood = (scores.imagine + scores.adventure + scores.spontaneous + scores.playful) / 4;
+            const maturity = (scores.cautious + scores.planned + scores.serious + scores.rational) / 4;
+            const boldness = (scores.wild + scores.rebel + scores.dreamer + scores.free) / 4;
+            const kindness = (scores.emotional + scores.optimistic + scores.extrovert) / 3;
+
+            if (childhood > 2.5 && boldness > 2.5) return results[0];
+            if (childhood > 2.5 && scores.adventure > 1.5) return results[1];
+            if (boldness > 2.5 && scores.rebel > 1.5) return results[2];
+            if (childhood > 2 && scores.dreamer > 1.5) return results[3];
+            if (maturity > 2 && scores.dreamer > 0.5) return results[4];
+            if (kindness > 2 && scores.emotional > 1.5) return results[5];
+            if (scores.intuitive > 1.5 && childhood > 2) return results[6];
+            return results[7];
+        }
+
+        // ====================== 维度计算 ======================
+        function calculateDimensions() {
+            return {
+                童心指数: Math.min(100, Math.round((scores.imagine + scores.adventure + scores.spontaneous + scores.playful) * 12.5)),
+                成熟指数: Math.min(100, Math.round((scores.cautious + scores.planned + scores.serious + scores.rational) * 12.5)),
+                创意指数: Math.min(100, Math.round((scores.creative + scores.intuitive + scores.curious) * 13.33)),
+                善良指数: Math.min(100, Math.round((scores.emotional + scores.optimistic + scores.extrovert) * 16.67)),
+                勇气指数: Math.min(100, Math.round((scores.wild + scores.rebel + scores.dreamer + scores.free) * 12.5)),
+                稳定指数: Math.min(100, Math.round((scores.steady + scores.secure + scores.calm) * 13.33))
+            };
+        }
+
+        // 检测设备是否为移动端
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   window.innerWidth < 768;
+        }
+
+        // ====================== 结果 + 烟花 ======================
+        function showResult() {
+            playClickSound();
+            finalResult = calculateResult();
+            const dimensions = calculateDimensions();
+            document.getElementById('questionsContainer').innerHTML = '';
+
+            // 生成维度条HTML
+            const dimensionColors = ['orange', 'blue', 'cyan', 'purple', 'green', 'blue'];
+            const dimensionNames = Object.keys(dimensions);
+            let dimensionsHtml = '<div class="dimensions-section"><div class="dimensions-title">📊 你的维度指数</div>';
+            
+            dimensionNames.forEach((name, idx) => {
+                const value = dimensions[name];
+                const colorClass = dimensionColors[idx];
+                dimensionsHtml += `
+                    <div class="dimension-item">
+                        <div class="dimension-label">
+                            <span>${name}</span>
+                            <span class="dimension-value">${value}%</span>
+                        </div>
+                        <div class="dimension-bar">
+                            <div class="dimension-fill ${colorClass}" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            dimensionsHtml += '</div>';
+
+            let html = `<div class="result-section active" id="resultSection">
+                <div class="result-emoji">${finalResult.emoji}</div>
+                <div class="result-title">${finalResult.title}</div>
+                <div class="result-type">${finalResult.type}</div>
+                <div class="result-description">${finalResult.desc}</div>
+                <div style="text-align:left;">
+                    <div style="font-size:12px;color:#999;text-transform:uppercase;margin-bottom:12px;font-weight:600;">你的特质</div>
+                    <div class="result-traits">${finalResult.traits.map(t=>`<div class="trait">✨ ${t}</div>`).join('')}</div>
+                </div>
+                ${dimensionsHtml}
+                <div class="result-actions">
+                    <button class="btn btn-primary" onclick="retakeQuiz()">再测一次</button>
+                    <button class="btn btn-secondary" onclick="generateShareCard()">✨ 生成分享卡</button>
+                </div>
+                <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f0f0f0;text-align:center;">
+                    <p style="font-size:12px;color:#999;">祝你儿童节快乐！🎉</p>
+                    <p style="font-size:12px;color:#999;margin-top:8px;">永远保持那份童心✨</p>
+                </div>
+            </div>`;
+
+            const resEl = document.getElementById('resultSection');
+            resEl.innerHTML = html;
+            resEl.classList.add('active');
+
+            // 动画填充进度条
+            setTimeout(() => {
+                dimensionNames.forEach((name, idx) => {
+                    const bars = document.querySelectorAll('.dimension-fill');
+                    if (bars[idx]) {
+                        bars[idx].style.width = dimensions[name] + '%';
+                    }
+                });
+            }, 100);
+
+            // 🔥 移动端禁用烟花，PC端显示
+            if (!isMobileDevice()) {
+                startFireworks();
+            }
+        }
+
+        function retakeQuiz() {
+            playClickSound();
+            document.getElementById('resultSection').classList.remove('active');
+            document.getElementById('resultSection').innerHTML = '';
+            document.getElementById('questionsContainer').innerHTML = '';
+            document.getElementById('startSection').classList.add('active');
+            currentQuestion=0; selectedOption=null; finalResult=null;
+            stopFireworks();
+        }
+
+        function shareResult() {
+            playClickSound();
+            if(!finalResult) finalResult = calculateResult();
+            const text = `我在2026.6.1儿童节的"童心指数测试"中得到了：${finalResult.title}！来看看你是什么童心类型吧！✨`;
+            if(navigator.share){
+                navigator.share({title:'童心指数测试',text:text});
+            }else{
+                alert(text);
+            }
+        }
+
+        // ====================== 生成分享卡片 ======================
+        function generateShareCard() {
+            playClickSound();
+            if (!finalResult) finalResult = calculateResult();
+            
+            const shareCard = document.getElementById('shareCard');
+            shareCard.innerHTML = `
+                <div class="share-emoji">${finalResult.emoji}</div>
+                <div class="share-title">${finalResult.title}</div>
+                <div class="share-type">${finalResult.type}</div>
+                <div class="share-desc">${finalResult.desc}</div>
+                <div class="share-footer">
+                    <p>童心指数测试</p>
+                    <p class="share-date">2026.6.1 儿童节 ✨</p>
+                </div>
+            `;
+            
+            // 使用html2canvas生成卡片图片
+            html2canvas(shareCard, {
+                backgroundColor: null,
+                scale: 2,
+                allowTaint: true,
+                useCORS: true
+            }).then(canvas => {
+                // 转换为图片并下载
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = `童心指数-${finalResult.title}.png`;
+                link.click();
+                
+                // 提示用户
+                alert('✨ 卡片已生成！你可以在下载中找到。\n\n长按图片可分享给朋友～');
+            }).catch(err => {
+                console.error('生成卡片失败:', err);
+                // 降级方案：直接分享
+                shareResult();
+            });
+        }
+
+        // ====================== 烟花动画 ======================
+        let fireworksAnimation = null;
+        const canvas = document.getElementById('fireworks');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.speed = Math.random() * 3 + 2;
+                this.angle = Math.random() * Math.PI * 2;
+                this.gravity = 0.05;
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.02 + 0.02;
+                this.color = color;
+            }
+            update() {
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function createFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height * 0.6;
+            const colors = ['#FF6B9D', '#FFA502', '#6BCB77', '#9D84B7', '#4D96FF'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+
+        function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (Math.random() < 0.08) createFirework();
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw();
+                if (p.alpha <= 0) particles.splice(i, 1);
+            }
+            fireworksAnimation = requestAnimationFrame(loop);
+        }
+
+        function startFireworks() {
+            canvas.style.display = 'block';
+            loop();
+        }
+
+        function stopFireworks() {
+            cancelAnimationFrame(fireworksAnimation);
+            canvas.style.display = 'none';
+            particles = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    </script>
+</body>
+</html>
