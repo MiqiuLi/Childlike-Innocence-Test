@@ -270,7 +270,6 @@
             color: #555;
             border-left: 3px solid var(--primary);
         }
-
         /* 维度指数区块 */
         .dimensions-section {
             text-align: left;
@@ -279,7 +278,6 @@
             background: #f9f9f9;
             border-radius: 12px;
         }
-
         .dimensions-title {
             font-size: 12px;
             color: #999;
@@ -288,11 +286,9 @@
             font-weight: 600;
             letter-spacing: 1px;
         }
-
         .dimension-item {
             margin-bottom: 18px;
         }
-
         .dimension-label {
             display: flex;
             justify-content: space-between;
@@ -302,13 +298,11 @@
             font-weight: 500;
             color: #333;
         }
-
         .dimension-value {
             font-size: 13px;
             font-weight: 600;
             color: #666;
         }
-
         .dimension-bar {
             width: 100%;
             height: 8px;
@@ -317,34 +311,27 @@
             overflow: hidden;
             position: relative;
         }
-
         .dimension-fill {
             height: 100%;
             border-radius: 4px;
             transition: width 0.8s ease;
             background: linear-gradient(90deg, #FF6B9D, #FFA502);
         }
-
         .dimension-fill.purple {
             background: linear-gradient(90deg, #9D84B7, #FF6B9D);
         }
-
         .dimension-fill.blue {
             background: linear-gradient(90deg, #4D96FF, #6BCB77);
         }
-
         .dimension-fill.green {
             background: linear-gradient(90deg, #6BCB77, #4D96FF);
         }
-
         .dimension-fill.orange {
             background: linear-gradient(90deg, #FFA502, #FF6B9D);
         }
-
         .dimension-fill.cyan {
             background: linear-gradient(90deg, #4D96FF, #9D84B7);
         }
-
         /* 分享卡片 */
         #shareCard {
             display: none;
@@ -358,12 +345,10 @@
             text-align: center;
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
-
         #shareCard .share-emoji {
             font-size: 60px;
             margin-bottom: 15px;
         }
-
         #shareCard .share-title {
             font-size: 24px;
             font-weight: 800;
@@ -373,7 +358,6 @@
             background-clip: text;
             margin-bottom: 10px;
         }
-
         #shareCard .share-type {
             font-size: 14px;
             color: #FF6B9D;
@@ -382,21 +366,18 @@
             margin-bottom: 15px;
             letter-spacing: 1px;
         }
-
         #shareCard .share-desc {
             font-size: 13px;
             color: #666;
             line-height: 1.6;
             margin-bottom: 20px;
         }
-
         #shareCard .share-footer {
             font-size: 12px;
             color: #999;
             padding-top: 15px;
             border-top: 1px solid #ddd;
         }
-
         #shareCard .share-date {
             margin-top: 10px;
             font-size: 11px;
@@ -434,7 +415,61 @@
             .result-title { font-size: 22px; }
             .result-traits { grid-template-columns: 1fr; }
         }
-
+        /* 小花BGM按钮 */
+        #flowerBtn {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(145deg, 
+        rgba(255,255,255,0.9) 0%, 
+        rgba(180,220,255,0.6) 50%,
+        rgba(210,240,255,0.4) 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 9998;
+    box-shadow: 
+        0 4px 15px rgba(150,200,255,0.35),
+        inset 0 1px 3px rgba(255,255,255,0.9),
+        inset 0 -1px 3px rgba(180,220,255,0.4);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+#flowerBtn:hover {
+    transform: scale(1.12);
+    box-shadow: 
+        0 6px 20px rgba(150,200,255,0.5),
+        inset 0 1px 3px rgba(255,255,255,0.9),
+        inset 0 -1px 3px rgba(180,220,255,0.4);
+}
+#flowerBtn.paused { filter: grayscale(0.5) opacity(0.55); }
+#flowerBtn.pop { animation: flowerPop 0.32s ease; }
+@keyframes flowerPop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.38) rotate(18deg); }
+    70%  { transform: scale(0.88) rotate(-8deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+        #flowerBtn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 16px rgba(255,107,157,0.22);
+        }
+        #flowerBtn.paused {
+            filter: grayscale(0.6) opacity(0.6);
+        }
+        #flowerBtn.pop {
+            animation: flowerPop 0.32s ease;
+        }
+        @keyframes flowerPop {
+            0%   { transform: scale(1); }
+            40%  { transform: scale(1.38) rotate(18deg); }
+            70%  { transform: scale(0.88) rotate(-8deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
         /* 烟花全屏画布 */
         #fireworks {
             position: fixed;
@@ -482,20 +517,42 @@
             <div class="result-section" id="resultSection"></div>
         </div>
     </div>
-
-    <!-- Canvas用于烟花 -->
-    <canvas id="fireworks" style="position: fixed; top: 0; left: 0; display: none;"></canvas>
+    <!-- 分享卡片（隐藏） -->
+    <div id="shareCard"></div>
 
     <!-- 音效 -->
     <audio class="hidden-audio" id="clickSound">
         <source src="data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==" type="audio/wav">
     </audio>
 
-    <!-- 分享卡片（隐藏） -->
-    <div id="shareCard"></div>
+    <!-- BGM -->
+    <audio id="bgm" loop preload="auto" style="display:none;">
+        <source src="https://music.163.com/song/media/outer/url?id=467744316.mp3" type="audio/mpeg">
+    </audio>
 
+    <!-- 小花按钮 -->
+    <button id="flowerBtn" onclick="toggleBgm()" title="">🌸</button>
+    
     <script>
         // ====================== 音效 ======================
+        let bgmPlaying = false;
+        function toggleBgm() {
+            const bgm = document.getElementById('bgm');
+            const btn = document.getElementById('flowerBtn');
+            if (!bgm) return;
+            btn.classList.remove('pop');
+            void btn.offsetWidth; // reflow触发重新播放动画
+            btn.classList.add('pop');
+            if (bgm.paused) {
+                bgm.play().catch(() => {});
+                bgmPlaying = true;
+                btn.classList.remove('paused');
+            } else {
+                bgm.pause();
+                bgmPlaying = false;
+                btn.classList.add('paused');
+            }
+        }
         let audioContext = null;
         function initAudio() {
             if (!audioContext) {
@@ -517,7 +574,6 @@
                 oscillator.stop(audioContext.currentTime + 0.1);
             } catch (e) {}
         }
-
         // ====================== 题目与结果 ======================
         const questions = [
             {q:"你现在最想做的事是什么？",options:[{text:"创造或想象一些新奇的东西",score:{imagine:1,cautious:0}},{text:"按计划完成手头的任务",score:{imagine:0,cautious:1}}]},
@@ -537,7 +593,6 @@
             {q:"遇到困难时，你倾向于？",options:[{text:"想办法创意性地解决",score:{creative:1,conventional:0}},{text:"采用已知有效的方法",score:{creative:0,conventional:1}}]},
             {q:"对\"长大\"这件事，你的感受是？",options:[{text:"有点舍不得失去的那份纯真",score:{nostalgic:1,progressive:0}},{text:"期待成为更好的大人",score:{nostalgic:0,progressive:1}}]}
         ];
-
         const results = [
             {type:"梦想家",emoji:"🦄",title:"永远的梦想家",desc:"你内心住着一个永远不愿长大的梦想家。你用想象力编织世界，相信魔法存在。对你来说，生活就是一场冒险故事，充满惊喜和可能。",traits:["想象力丰富","充满热情","乐观向上","敢于梦想","感性细腻","创意十足"]},
             {type:"探险家",emoji:"🌍",title:"勇敢的探险家",desc:"你是那种说走就走的人。世界对你充满诱惑，每个角落都隐藏着秘密。你渴望自由、热爱冒险，心中永远有一份对未知的期待。",traits:["勇气十足","爱好探索","热血沸腾","自由奔放","行动力强","永葆激情"]},
@@ -548,12 +603,10 @@
             {type:"理想主义者",emoji:"🌈",title:"彩色的理想主义者",desc:"你有着孩子的纯真信念和大人的思考能力。你相信世界可以更好，并为此而努力。你的内心闪闪发光，照亮了自己也温暖了他人。",traits:["信念坚定","充满希望","理想主义","独特视角","有担当","深思熟虑"]},
             {type:"享乐者",emoji:"🎪",title:"快乐的享乐者",desc:"生活就是用来享受的！你懂得抓住生活中的每一个快乐时刻。你不会被琐碎困扰，而是专注于那些让人开心的事。你是快乐的源头。",traits:["热爱生活","享受当下","开朗乐观","气场十足","感染力强","纯粹快乐"]}
         ];
-
         let currentQuestion = 0;
         let scores = {};
         let selectedOption = null;
         let finalResult = null;
-
         function initScores() {
             scores = {
                 imagine:0,cautious:0,adventure:0,playful:0,spontaneous:0,planned:0,
@@ -563,7 +616,6 @@
                 nostalgic:0,progressive:0, serious:0
             };
         }
-
         function startQuiz() {
             playClickSound();
             initScores();
@@ -574,10 +626,23 @@
                 const j = Math.floor(Math.random() * (i + 1));
                 [questions[i], questions[j]] = [questions[j], questions[i]];
             }
+            // 🎵 自动播放BGM
+            const bgm = document.getElementById('bgm');
+            if (bgm) {
+                bgm.volume = 0.45;
+                bgm.play().then(() => {
+                    bgmPlaying = true;
+                    const btn = document.getElementById('flowerBtn');
+                    if (btn) btn.classList.remove('paused');
+                }).catch(() => {
+                    bgmPlaying = false;
+                    const btn = document.getElementById('flowerBtn');
+                    if (btn) btn.classList.add('paused');
+                });
+            }
             document.getElementById('startSection').classList.remove('active');
             showQuestion();
         }
-
         function showQuestion() {
             playClickSound();
             const container = document.getElementById('questionsContainer');
@@ -603,7 +668,6 @@
             </div>`;
             container.innerHTML = html;
         }
-
         function selectOption(idx) {
             playClickSound();
             selectedOption = idx;
@@ -612,7 +676,6 @@
             });
             document.getElementById('nextBtn').disabled = false;
         }
-
         function nextQuestion() {
             if(selectedOption===null)return;
             const q = questions[currentQuestion];
@@ -626,7 +689,6 @@
                 showResult();
             }
         }
-
         function previousQuestion() {
             playClickSound();
             if(currentQuestion>0){
@@ -635,23 +697,39 @@
                 showQuestion();
             }
         }
-
+        //【已修复：加权最高分判定，8种结果全可触发】
         function calculateResult() {
-            const childhood = (scores.imagine + scores.adventure + scores.spontaneous + scores.playful) / 4;
-            const maturity = (scores.cautious + scores.planned + scores.serious + scores.rational) / 4;
-            const boldness = (scores.wild + scores.rebel + scores.dreamer + scores.free) / 4;
-            const kindness = (scores.emotional + scores.optimistic + scores.extrovert) / 3;
+            // 每道题每个属性最多得1分，用加权方式计算各人格亲和分（满分4分）
+            // 谁的亲和分最高就返回谁，保证8种结果都能触发
+            const typeScores = [
+                // 0: 永远的梦想家 - 想象力+梦想+创意
+                scores.imagine * 2 + scores.dreamer + scores.creative,
+                // 1: 勇敢的探险家 - 冒险+自由+疯狂
+                scores.adventure * 2 + scores.wild + scores.free,
+                // 2: 永不驯服的调皮鬼 - 反叛+疯狂+活泼
+                scores.rebel * 2 + scores.wild + scores.playful,
+                // 3: 星辰探梦者 - 梦想+想象+冒险+直觉（平衡型）
+                scores.dreamer + scores.imagine + scores.adventure + scores.intuitive,
+                // 4: 实梦者 - 梦想+计划+谨慎+理性（有梦想的成熟者）
+                scores.dreamer + scores.planned + scores.cautious + scores.rational,
+                // 5: 温暖的治愈者 - 情感+乐观+外向
+                scores.emotional * 2 + scores.optimistic + scores.extrovert,
+                // 6: 彩色的理想主义者 - 好奇+创意+怀旧
+                scores.curious * 2 + scores.creative + scores.nostalgic,
+                // 7: 快乐的享乐者 - 活泼+外向+多彩
+                scores.playful * 2 + scores.extrovert + scores.colorful
+            ];
 
-            if (childhood > 2.5 && boldness > 2.5) return results[0];
-            if (childhood > 2.5 && scores.adventure > 1.5) return results[1];
-            if (boldness > 2.5 && scores.rebel > 1.5) return results[2];
-            if (childhood > 2 && scores.dreamer > 1.5) return results[3];
-            if (maturity > 2 && scores.dreamer > 0.5) return results[4];
-            if (kindness > 2 && scores.emotional > 1.5) return results[5];
-            if (scores.intuitive > 1.5 && childhood > 2) return results[6];
-            return results[7];
+            // 返回亲和分最高的人格
+            let maxScore = -1, maxIdx = 7;
+            for (let i = 0; i < typeScores.length; i++) {
+                if (typeScores[i] > maxScore) {
+                    maxScore = typeScores[i];
+                    maxIdx = i;
+                }
+            }
+            return results[maxIdx];
         }
-
         // ====================== 维度计算 ======================
         function calculateDimensions() {
             return {
@@ -663,20 +741,17 @@
                 稳定指数: Math.min(100, Math.round((scores.steady + scores.secure + scores.calm) * 13.33))
             };
         }
-
         // 检测设备是否为移动端
         function isMobileDevice() {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
                    window.innerWidth < 768;
         }
-
         // ====================== 结果 + 烟花 ======================
         function showResult() {
             playClickSound();
             finalResult = calculateResult();
             const dimensions = calculateDimensions();
             document.getElementById('questionsContainer').innerHTML = '';
-
             // 生成维度条HTML
             const dimensionColors = ['orange', 'blue', 'cyan', 'purple', 'green', 'blue'];
             const dimensionNames = Object.keys(dimensions);
@@ -698,7 +773,6 @@
                 `;
             });
             dimensionsHtml += '</div>';
-
             let html = `<div class="result-section active" id="resultSection">
                 <div class="result-emoji">${finalResult.emoji}</div>
                 <div class="result-title">${finalResult.title}</div>
@@ -718,11 +792,9 @@
                     <p style="font-size:12px;color:#999;margin-top:8px;">永远保持那份童心✨</p>
                 </div>
             </div>`;
-
             const resEl = document.getElementById('resultSection');
             resEl.innerHTML = html;
             resEl.classList.add('active');
-
             // 动画填充进度条
             setTimeout(() => {
                 dimensionNames.forEach((name, idx) => {
@@ -732,15 +804,19 @@
                     }
                 });
             }, 100);
-
             // 🔥 移动端禁用烟花，PC端显示
             if (!isMobileDevice()) {
                 startFireworks();
             }
         }
-
         function retakeQuiz() {
             playClickSound();
+            // 停止BGM
+            const bgm = document.getElementById('bgm');
+            if (bgm) { bgm.pause(); bgm.currentTime = 0; }
+            bgmPlaying = false;
+            const btn = document.getElementById('flowerBtn');
+            if (btn) btn.classList.add('paused');
             document.getElementById('resultSection').classList.remove('active');
             document.getElementById('resultSection').innerHTML = '';
             document.getElementById('questionsContainer').innerHTML = '';
@@ -748,7 +824,6 @@
             currentQuestion=0; selectedOption=null; finalResult=null;
             stopFireworks();
         }
-
         function shareResult() {
             playClickSound();
             if(!finalResult) finalResult = calculateResult();
@@ -759,7 +834,6 @@
                 alert(text);
             }
         }
-
         // ====================== 生成分享卡片 ======================
         function generateShareCard() {
             playClickSound();
@@ -798,20 +872,17 @@
                 shareResult();
             });
         }
-
         // ====================== 烟花动画 ======================
         let fireworksAnimation = null;
         const canvas = document.getElementById('fireworks');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
-
         class Particle {
             constructor(x, y, color) {
                 this.x = x;
@@ -841,7 +912,6 @@
                 ctx.restore();
             }
         }
-
         function createFirework() {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height * 0.6;
@@ -851,7 +921,6 @@
                 particles.push(new Particle(x, y, color));
             }
         }
-
         function loop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if (Math.random() < 0.08) createFirework();
@@ -863,12 +932,10 @@
             }
             fireworksAnimation = requestAnimationFrame(loop);
         }
-
         function startFireworks() {
             canvas.style.display = 'block';
             loop();
         }
-
         function stopFireworks() {
             cancelAnimationFrame(fireworksAnimation);
             canvas.style.display = 'none';
